@@ -18,6 +18,7 @@ type Client struct {
 	Team *TeamService
 	Status *StatsService
 	Post *PostService
+	Comment *CommentService
 }
 
 func NewClient(apikey string) *Client {
@@ -28,6 +29,7 @@ func NewClient(apikey string) *Client {
 	c.Team = &TeamService{client: c}
 	c.Status = &StatsService{client: c}
 	c.Post = &PostService{client: c}
+	c.Comment = &CommentService{client: c}
 
 	return c
 }
