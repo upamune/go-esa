@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
-	"fmt"
 )
 
 const (
@@ -56,15 +55,27 @@ func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interfa
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(req.URL.Scheme)
 	req.Header.Add("Content-Type", bodyType)
 	res, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("OK RES")
 
 	if err := responseUnmarshal(res.Body, v); err != nil{
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (c *Client) delete(esaURL string) ( resp *http.Response, err error) {
+	path := c.createURL(esaURL)
+	req, err := http.NewRequest("DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	res, err := c.client.Do(req)
+	if err != nil {
 		return nil, err
 	}
 
