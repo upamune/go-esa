@@ -45,6 +45,7 @@ type PostResponse struct {
 	Message         string   `json:"message"`
 	Name            string   `json:"name"`
 	Number          int      `json:"number"`
+	OverLapped      bool     `json:"overlapped"`
 	RevisionNumber  int      `json:"revision_number"`
 	Star            bool     `json:"star"`
 	StargazersCount int      `json:"stargazers_count"`
@@ -138,4 +139,40 @@ func (p *PostService) PostTeamPost(teamName string, post Post) (*PostResponse, e
 	defer res.Body.Close()
 
 	return &postRes, nil
+}
+
+func (p *PostService) PatchTeamPost(teamName string, postNumber int, post Post) (*PostResponse, error) {
+	var postRes PostResponse
+	var postReq PostReq
+	postReq.Post = post
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
+
+	var data []byte
+	var err error
+	if data, err = json.Marshal(postReq); err != nil {
+		return nil, err
+	}
+
+	res, err := p.client.patch(postURL, "application/json", bytes.NewReader(data), &postRes)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	return &postRes, nil
+}
+
+func (p *PostService) DeleteTeamPost(teamName string, postNumber int) (error) {
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
+
+	res, err := p.client.delete(postURL)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
 }
