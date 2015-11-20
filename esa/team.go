@@ -48,4 +48,3 @@ func (t *TeamService) GetTeam(teamName string) (*TeamResponse, error){
 
 	return &teamRes, nil
 }
-

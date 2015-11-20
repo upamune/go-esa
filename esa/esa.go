@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
+	"fmt"
 )
 
 const (
@@ -17,6 +18,7 @@ type Client struct {
 	baseURL string
 	Team *TeamService
 	Status *StatsService
+	Post *PostService
 }
 
 func NewClient(apikey string) *Client {
@@ -26,6 +28,7 @@ func NewClient(apikey string) *Client {
 	c.baseURL = defaultBaseURL
 	c.Team = &TeamService{client: c}
 	c.Status = &StatsService{client: c}
+	c.Post = &PostService{client: c}
 
 	return c
 }
@@ -53,6 +56,7 @@ func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http
 		path += "&" + key + "=" + url.QueryEscape(value[0])
 	}
 
+	fmt.Println(path)
 	res, err := c.client.Get(path)
 	if err != nil {
 		return nil, err
