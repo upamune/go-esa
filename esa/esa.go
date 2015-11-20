@@ -50,13 +50,33 @@ func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interfac
 	return res, nil
 }
 
+func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interface{}) ( resp *http.Response, err error) {
+	path := c.createURL(esaURL)
+	req, err := http.NewRequest("PATCH", path, body)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(req.URL.Scheme)
+	req.Header.Add("Content-Type", bodyType)
+	res, err := c.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println("OK RES")
+
+	if err := responseUnmarshal(res.Body, v); err != nil{
+		return nil, err
+	}
+
+	return res, nil
+}
+
 func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http.Response, err error) {
 	path := c.createURL(esaURL)
 	for key, value := range query {
 		path += "&" + key + "=" + url.QueryEscape(value[0])
 	}
 
-	fmt.Println(path)
 	res, err := c.client.Get(path)
 	if err != nil {
 		return nil, err
