@@ -16,7 +16,7 @@ type Client struct {
 	apiKey string
 	baseURL string
 	Team *TeamService
-	Status *StatsService
+	Stats *StatsService
 	Post *PostService
 	Comment *CommentService
 }
@@ -27,7 +27,7 @@ func NewClient(apikey string) *Client {
 	c.apiKey = apikey
 	c.baseURL = defaultBaseURL
 	c.Team = &TeamService{client: c}
-	c.Status = &StatsService{client: c}
+	c.Stats = &StatsService{client: c}
 	c.Post = &PostService{client: c}
 	c.Comment = &CommentService{client: c}
 

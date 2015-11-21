@@ -20,7 +20,7 @@ type StatsResponse struct {
 }
 
 
-func (s *StatsService) GetTeamStatus(teamName string) (*StatsResponse, error) {
+func (s *StatsService) GetTeamStats(teamName string) (*StatsResponse, error) {
 	var statsRes StatsResponse
 
 	statsURL := StatsURL + "/" + teamName + "/stats"
