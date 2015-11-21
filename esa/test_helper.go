@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 )
 
+// Stub テスト用のスタブ
 func Stub(filename string, outRes interface{}) (*httptest.Server, *Client) {
 	stub, err := ioutil.ReadFile(filename)
 	if err != nil {
