@@ -9,9 +9,11 @@ import (
 )
 
 const (
+	// defaultBaseURL esa API の host
 	defaultBaseURL = "https://api.esa.io"
 )
 
+// Client esa API クライアント
 type Client struct {
 	client  *http.Client
 	apiKey  string
@@ -22,6 +24,7 @@ type Client struct {
 	Comment *CommentService
 }
 
+// NewClient esa APIのClientを生成する
 func NewClient(apikey string) *Client {
 	c := &Client{}
 	c.client = http.DefaultClient
