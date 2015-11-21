@@ -3,13 +3,16 @@ package esa
 import "net/url"
 
 const (
+	// StatsURL esa API の統計情報のベ-スURL
 	StatsURL = "/v1/teams"
 )
 
+// StatsService API docs: https://docs.esa.io/posts/102#5-0-0
 type StatsService struct {
 	client *Client
 }
 
+// StatsResponse 統計情報のレスポンス
 type StatsResponse struct {
 	Comments           int `json:"comments"`
 	DailyActiveUsers   int `json:"daily_active_users"`
@@ -20,6 +23,7 @@ type StatsResponse struct {
 	WeeklyActiveUsers  int `json:"weekly_active_users"`
 }
 
+// GetTeamStats チ-ム名を指定して統計情報を取得する
 func (s *StatsService) GetTeamStats(teamName string) (*StatsResponse, error) {
 	var statsRes StatsResponse
 
