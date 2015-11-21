@@ -32,6 +32,11 @@ client.Stats.GetTeamStats("bar")
 client.Post.GetTeamPosts("foo")
 #=> GET /v1/teams/foo/posts
 
+query := url.Values{}
+query.Add("in", "help")
+client.Post.GetTeamPosts("foo", query)
+#=> GET /v1/teams/foo/posts?q=in%3Ahelp
+
 client.Post.GetTeamPost("foo", 1)
 #=> GET /v1/teams/foobar/posts/1
 
