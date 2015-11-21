@@ -8,13 +8,16 @@ import (
 )
 
 const (
+	// CommentURL esa API のコメントのベ-スURL
 	CommnetURL = "/v1/teams"
 )
 
+// CommentService API docs: https://docs.esa.io/posts/102#7-0-0
 type CommentService struct {
 	client *Client
 }
 
+// CommentResponse コメントのレスポンス
 type CommentResponse struct {
 	BodyHTML  string `json:"body_html"`
 	BodyMd    string `json:"body_md"`
@@ -29,6 +32,7 @@ type CommentResponse struct {
 	URL       string `json:"url"`
 }
 
+// CommentsResponse 複数コメントのレスポンス
 type CommentsResponse struct {
 	Comments   []CommentResponse `json:"comments"`
 	NextPage   interface{}       `json:"next_page"`
@@ -36,15 +40,18 @@ type CommentsResponse struct {
 	TotalCount int               `json:"total_count"`
 }
 
+// CommentReq コメントのリクエスト
 type CommentReq struct {
 	Comment Comment `json:"comment"`
 }
 
+// Comment コメント
 type Comment struct {
 	BodyMd string `json:"body_md"`
 	User   string `json:"user"`
 }
 
+// GetTeamPostComments チ-ム名とポスト番号を指定してコメントを取得する.
 func (c *CommentService) GetTeamPostComments(teamName string, postNumber int) (*CommentsResponse, error) {
 	var commentsResponse CommentsResponse
 	postNumberStr := strconv.Itoa(postNumber)
@@ -60,6 +67,7 @@ func (c *CommentService) GetTeamPostComments(teamName string, postNumber int) (*
 	return &commentsResponse, nil
 }
 
+// GetTeamComment チ-ム名とコメントIDを取得してコメントを取得する.
 func (c *CommentService) GetTeamComment(teamName string, commentID int) (*CommentResponse, error) {
 	var commentResponse CommentResponse
 	commentIDStr := strconv.Itoa(commentID)
@@ -75,6 +83,7 @@ func (c *CommentService) GetTeamComment(teamName string, commentID int) (*Commen
 	return &commentResponse, nil
 }
 
+// PostTeamPostComment チ-ム名とポスト番号とコメントを指定してコメントを投稿する
 func (c *CommentService) PostTeamPostComment(teamName string, postNumber int, comment Comment) (*CommentResponse, error) {
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"
@@ -98,6 +107,7 @@ func (c *CommentService) PostTeamPostComment(teamName string, postNumber int, co
 	return &commentResponse, nil
 }
 
+// PatchTeamComment チ-ム名とコメントIDとコメントを指定してコメントを更新する
 func (c *CommentService) PatchTeamComment(teamName string, commentID int, comment Comment) (*CommentResponse, error) {
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
@@ -121,6 +131,7 @@ func (c *CommentService) PatchTeamComment(teamName string, commentID int, commen
 	return &commentResponse, nil
 }
 
+// DeleteTeamComment チ-ム名とコメントIDを指定してコメントを削除する
 func (c *CommentService) DeleteTeamComment(teamName string, commentID int) error {
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
