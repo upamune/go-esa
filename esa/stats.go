@@ -1,4 +1,5 @@
 package esa
+
 import "net/url"
 
 const (
@@ -19,18 +20,16 @@ type StatsResponse struct {
 	WeeklyActiveUsers  int `json:"weekly_active_users"`
 }
 
-
 func (s *StatsService) GetTeamStats(teamName string) (*StatsResponse, error) {
 	var statsRes StatsResponse
 
 	statsURL := StatsURL + "/" + teamName + "/stats"
 	res, err := s.client.get(statsURL, url.Values{}, &statsRes)
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	defer res.Body.Close()
 
 	return &statsRes, nil
 }
-

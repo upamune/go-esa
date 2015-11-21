@@ -1,4 +1,5 @@
 package esa
+
 import "net/url"
 
 const (
@@ -18,17 +19,17 @@ type TeamResponse struct {
 }
 
 type TeamsResponse struct {
-	Teams    []TeamResponse `json:"teams"`
-	PrevPage interface{} `json:"prev_page"`
-	NextPage interface{} `json:"next_page"`
-	TotalCount int `json:"total_count"`
+	Teams      []TeamResponse `json:"teams"`
+	PrevPage   interface{}    `json:"prev_page"`
+	NextPage   interface{}    `json:"next_page"`
+	TotalCount int            `json:"total_count"`
 }
 
 func (t *TeamService) GetTeams() (*TeamsResponse, error) {
 	var teamsRes TeamsResponse
 	res, err := t.client.get(TeamURL, url.Values{}, &teamsRes)
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	defer res.Body.Close()
@@ -36,10 +37,10 @@ func (t *TeamService) GetTeams() (*TeamsResponse, error) {
 	return &teamsRes, nil
 }
 
-func (t *TeamService) GetTeam(teamName string) (*TeamResponse, error){
+func (t *TeamService) GetTeam(teamName string) (*TeamResponse, error) {
 	var teamRes TeamResponse
 	teamURL := TeamURL + "/" + teamName
-	res, err := t.client.get(teamURL, url.Values{}, &teamRes )
+	res, err := t.client.get(teamURL, url.Values{}, &teamRes)
 	if err != nil {
 		return nil, err
 	}

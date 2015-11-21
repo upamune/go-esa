@@ -1,15 +1,16 @@
 package esa
+
 import (
-	"testing"
-	"reflect"
+	"encoding/json"
 	"io/ioutil"
 	"log"
-	"encoding/json"
+	"reflect"
+	"testing"
 )
 
 func TestCommentGetTeamPostComments(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out CommentsResponse
 	}
 
@@ -32,7 +33,7 @@ func TestCommentGetTeamPostComments(t *testing.T) {
 
 func TestCommentGetTeamComment(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out CommentResponse
 	}
 
@@ -55,7 +56,7 @@ func TestCommentGetTeamComment(t *testing.T) {
 
 func TestCommentPostTeamPostComment(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out CommentResponse
 	}
 
@@ -89,7 +90,7 @@ func TestCommentPostTeamPostComment(t *testing.T) {
 
 func TestCommentPatchTeamComment(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out CommentResponse
 	}
 
@@ -123,7 +124,7 @@ func TestCommentPatchTeamComment(t *testing.T) {
 
 func TestCommentDeleteComment(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out interface{}
 	}
 

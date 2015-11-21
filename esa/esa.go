@@ -1,10 +1,11 @@
 package esa
+
 import (
-	"net/http"
-	"net/url"
 	"encoding/json"
 	"io"
 	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
 const (
@@ -12,12 +13,12 @@ const (
 )
 
 type Client struct {
-	client *http.Client
-	apiKey string
+	client  *http.Client
+	apiKey  string
 	baseURL string
-	Team *TeamService
-	Stats *StatsService
-	Post *PostService
+	Team    *TeamService
+	Stats   *StatsService
+	Post    *PostService
 	Comment *CommentService
 }
 
@@ -38,20 +39,20 @@ func (c *Client) createURL(esaURL string) string {
 	return c.baseURL + esaURL + "?access_token=" + c.apiKey
 }
 
-func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interface{}) ( resp *http.Response, err error) {
+func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interface{}) (resp *http.Response, err error) {
 	res, err := c.client.Post(c.createURL(esaURL), bodyType, body)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := responseUnmarshal(res.Body, v); err != nil{
+	if err := responseUnmarshal(res.Body, v); err != nil {
 		return nil, err
 	}
 
 	return res, nil
 }
 
-func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interface{}) ( resp *http.Response, err error) {
+func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interface{}) (resp *http.Response, err error) {
 	path := c.createURL(esaURL)
 	req, err := http.NewRequest("PATCH", path, body)
 	if err != nil {
@@ -63,14 +64,14 @@ func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interfa
 		return nil, err
 	}
 
-	if err := responseUnmarshal(res.Body, v); err != nil{
+	if err := responseUnmarshal(res.Body, v); err != nil {
 		return nil, err
 	}
 
 	return res, nil
 }
 
-func (c *Client) delete(esaURL string) ( resp *http.Response, err error) {
+func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 	path := c.createURL(esaURL)
 	req, err := http.NewRequest("DELETE", path, nil)
 	if err != nil {

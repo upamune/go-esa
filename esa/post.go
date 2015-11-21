@@ -1,9 +1,10 @@
 package esa
+
 import (
+	"bytes"
+	"encoding/json"
 	"net/url"
 	"strconv"
-	"encoding/json"
-	"bytes"
 )
 
 const (
@@ -15,9 +16,8 @@ type PostService struct {
 }
 
 type PostReq struct {
-	Post Post  `json:"post"`
+	Post Post `json:"post"`
 }
-
 
 type Post struct {
 	BodyMd   string   `json:"body_md"`
@@ -35,10 +35,10 @@ type PostResponse struct {
 	CommentsCount int    `json:"comments_count"`
 	CreatedAt     string `json:"created_at"`
 	CreatedBy     struct {
-					  Icon       string `json:"icon"`
-					  Name       string `json:"name"`
-					  ScreenName string `json:"screen_name"`
-				  } `json:"created_by"`
+		Icon       string `json:"icon"`
+		Name       string `json:"name"`
+		ScreenName string `json:"screen_name"`
+	} `json:"created_by"`
 	DoneTasksCount  int      `json:"done_tasks_count"`
 	FullName        string   `json:"full_name"`
 	Kind            string   `json:"kind"`
@@ -53,25 +53,24 @@ type PostResponse struct {
 	TasksCount      int      `json:"tasks_count"`
 	UpdatedAt       string   `json:"updated_at"`
 	UpdatedBy       struct {
-					  Icon       string `json:"icon"`
-					  Name       string `json:"name"`
-					  ScreenName string `json:"screen_name"`
-				  } `json:"updated_by"`
+		Icon       string `json:"icon"`
+		Name       string `json:"name"`
+		ScreenName string `json:"screen_name"`
+	} `json:"updated_by"`
 	URL           string `json:"url"`
 	Watch         bool   `json:"watch"`
 	WatchersCount int    `json:"watchers_count"`
 	Wip           bool   `json:"wip"`
-
 }
 
 type PostsResponse struct {
-	NextPage interface{} `json:"next_page"`
-	Posts    []PostResponse `json:"posts"`
-	PrevPage   interface{} `json:"prev_page"`
-	TotalCount int         `json:"total_count"`
+	NextPage   interface{}    `json:"next_page"`
+	Posts      []PostResponse `json:"posts"`
+	PrevPage   interface{}    `json:"prev_page"`
+	TotalCount int            `json:"total_count"`
 }
 
-func createSearchQuery(query url.Values) (string) {
+func createSearchQuery(query url.Values) string {
 	var queries string
 	for key, values := range query {
 		queries += key + ":"
@@ -84,7 +83,7 @@ func createSearchQuery(query url.Values) (string) {
 	return queries
 }
 
-func (p *PostService) GetTeamPosts(teamName string, query url.Values) (*PostsResponse, error){
+func (p *PostService) GetTeamPosts(teamName string, query url.Values) (*PostsResponse, error) {
 	var postsRes PostsResponse
 	queries := createSearchQuery(query)
 
@@ -95,7 +94,7 @@ func (p *PostService) GetTeamPosts(teamName string, query url.Values) (*PostsRes
 	postsURL := PostURL + "/" + teamName + "/posts"
 	res, err := p.client.get(postsURL, searchQuery, &postsRes)
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	defer res.Body.Close()
@@ -120,7 +119,7 @@ func (p *PostService) GetTeamPost(teamName string, postNumber int) (*PostRespons
 	return &postRes, nil
 }
 
-func (p *PostService) PostTeamPost(teamName string, post Post) (*PostResponse, error){
+func (p *PostService) PostTeamPost(teamName string, post Post) (*PostResponse, error) {
 	postURL := PostURL + "/" + teamName + "/posts"
 	var postRes PostResponse
 	var postReq PostReq
@@ -164,7 +163,7 @@ func (p *PostService) PatchTeamPost(teamName string, postNumber int, post Post) 
 	return &postRes, nil
 }
 
-func (p *PostService) DeleteTeamPost(teamName string, postNumber int) (error) {
+func (p *PostService) DeleteTeamPost(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
 

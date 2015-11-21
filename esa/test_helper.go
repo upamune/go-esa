@@ -1,10 +1,11 @@
 package esa
+
 import (
-	"net/http/httptest"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"encoding/json"
+	"net/http/httptest"
 )
 
 func Stub(filename string, outRes interface{}) (*httptest.Server, *Client) {

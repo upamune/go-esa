@@ -1,9 +1,10 @@
 package esa
+
 import (
-	"strconv"
-	"net/url"
-	"encoding/json"
 	"bytes"
+	"encoding/json"
+	"net/url"
+	"strconv"
 )
 
 const (
@@ -19,20 +20,20 @@ type CommentResponse struct {
 	BodyMd    string `json:"body_md"`
 	CreatedAt string `json:"created_at"`
 	CreatedBy struct {
-				  Icon       string `json:"icon"`
-				  Name       string `json:"name"`
-				  ScreenName string `json:"screen_name"`
-			  } `json:"created_by"`
+		Icon       string `json:"icon"`
+		Name       string `json:"name"`
+		ScreenName string `json:"screen_name"`
+	} `json:"created_by"`
 	ID        int    `json:"id"`
 	UpdatedAt string `json:"updated_at"`
 	URL       string `json:"url"`
 }
 
 type CommentsResponse struct {
-	Comments []CommentResponse `json:"comments"`
-	NextPage   interface{} `json:"next_page"`
-	PrevPage   interface{} `json:"prev_page"`
-	TotalCount int         `json:"total_count"`
+	Comments   []CommentResponse `json:"comments"`
+	NextPage   interface{}       `json:"next_page"`
+	PrevPage   interface{}       `json:"prev_page"`
+	TotalCount int               `json:"total_count"`
 }
 
 type CommentReq struct {
@@ -40,8 +41,8 @@ type CommentReq struct {
 }
 
 type Comment struct {
-	BodyMd    string `json:"body_md"`
-	User string `json:"user"`
+	BodyMd string `json:"body_md"`
+	User   string `json:"user"`
 }
 
 func (c *CommentService) GetTeamPostComments(teamName string, postNumber int) (*CommentsResponse, error) {
@@ -49,7 +50,7 @@ func (c *CommentService) GetTeamPostComments(teamName string, postNumber int) (*
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"
 
-	res, err := c.client.get(commentURL, url.Values{},&commentsResponse)
+	res, err := c.client.get(commentURL, url.Values{}, &commentsResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +65,7 @@ func (c *CommentService) GetTeamComment(teamName string, commentID int) (*Commen
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
 
-	res, err := c.client.get(commentURL, url.Values{},&commentResponse)
+	res, err := c.client.get(commentURL, url.Values{}, &commentResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +75,7 @@ func (c *CommentService) GetTeamComment(teamName string, commentID int) (*Commen
 	return &commentResponse, nil
 }
 
-func (c *CommentService) PostTeamPostComment(teamName string, postNumber int, comment Comment) (*CommentResponse, error){
+func (c *CommentService) PostTeamPostComment(teamName string, postNumber int, comment Comment) (*CommentResponse, error) {
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"
 	var commentResponse CommentResponse
@@ -120,7 +121,7 @@ func (c *CommentService) PatchTeamComment(teamName string, commentID int, commen
 	return &commentResponse, nil
 }
 
-func (c *CommentService) DeleteTeamComment(teamName string, commentID int) (error) {
+func (c *CommentService) DeleteTeamComment(teamName string, commentID int) error {
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
 

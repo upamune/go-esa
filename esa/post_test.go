@@ -1,18 +1,17 @@
 package esa
 
 import (
-	"testing"
-	"reflect"
-	"net/url"
+	"encoding/json"
 	"io/ioutil"
 	"log"
-	"encoding/json"
+	"net/url"
+	"reflect"
+	"testing"
 )
-
 
 func TestPostGetTeamPosts(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out PostsResponse
 	}
 
@@ -35,7 +34,7 @@ func TestPostGetTeamPosts(t *testing.T) {
 
 func TestPostGetTeamPost(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out PostResponse
 	}
 
@@ -58,7 +57,7 @@ func TestPostGetTeamPost(t *testing.T) {
 
 func TestPostPostTeamPost(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out PostResponse
 	}
 
@@ -92,7 +91,7 @@ func TestPostPostTeamPost(t *testing.T) {
 
 func TestPostPatchTeamPost(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out PostResponse
 	}
 
@@ -126,7 +125,7 @@ func TestPostPatchTeamPost(t *testing.T) {
 
 func TestPostDeletePost(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out interface{}
 	}
 

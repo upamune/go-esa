@@ -1,14 +1,13 @@
 package esa
-import (
-	"testing"
-	"reflect"
-	"fmt"
-)
 
+import (
+	"reflect"
+	"testing"
+)
 
 func TestTeamGetTeams(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out TeamsResponse
 	}
 
@@ -31,7 +30,7 @@ func TestTeamGetTeams(t *testing.T) {
 
 func TestTeamGetTeam(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out TeamResponse
 	}
 

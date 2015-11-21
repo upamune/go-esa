@@ -1,13 +1,13 @@
 package esa
-import (
-	"testing"
-	"reflect"
-)
 
+import (
+	"reflect"
+	"testing"
+)
 
 func TestStatsGetTeamStatus(t *testing.T) {
 	type TestCase struct {
-		in string
+		in  string
 		out StatsResponse
 	}
 
