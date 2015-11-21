@@ -1,0 +1,13 @@
+{
+  "post":{
+    "name":"hi!",
+    "body_md":"# Getting Started\n",
+    "tags":[
+      "api",
+      "dev"
+    ],
+    "category":"dev/2015/05/10",
+    "wip":false,
+    "message":"Add Getting Started section"
+  }
+}
