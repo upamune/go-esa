@@ -51,7 +51,7 @@ type Comment struct {
 	User   string `json:"user"`
 }
 
-// GetTeamPostComments チ-ム名とポスト番号を指定してコメントを取得する.
+// GetTeamPostComments チ-ム名と記事番号を指定してコメントを取得する.
 func (c *CommentService) GetTeamPostComments(teamName string, postNumber int) (*CommentsResponse, error) {
 	var commentsResponse CommentsResponse
 	postNumberStr := strconv.Itoa(postNumber)
@@ -83,7 +83,7 @@ func (c *CommentService) GetTeamComment(teamName string, commentID int) (*Commen
 	return &commentResponse, nil
 }
 
-// PostTeamPostComment チ-ム名とポスト番号とコメントを指定してコメントを投稿する
+// PostTeamPostComment チ-ム名と記事番号とコメントを指定してコメントを投稿する
 func (c *CommentService) PostTeamPostComment(teamName string, postNumber int, comment Comment) (*CommentResponse, error) {
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"

@@ -8,17 +8,21 @@ import (
 )
 
 const (
+	// PostURL esa API のコメントのベ-スURL
 	PostURL = "/v1/teams"
 )
 
+// PostService API docs: https://docs.esa.io/posts/102#6-0-0
 type PostService struct {
 	client *Client
 }
 
+// PostReq 記事のリクエスト
 type PostReq struct {
 	Post Post `json:"post"`
 }
 
+// Post 記事
 type Post struct {
 	BodyMd   string   `json:"body_md"`
 	Category string   `json:"category"`
@@ -28,6 +32,7 @@ type Post struct {
 	Wip      bool     `json:"wip"`
 }
 
+// PostResponse 記事のレスポンス
 type PostResponse struct {
 	BodyHTML      string `json:"body_html"`
 	BodyMd        string `json:"body_md"`
@@ -63,6 +68,7 @@ type PostResponse struct {
 	Wip           bool   `json:"wip"`
 }
 
+// PostsResponse 複数記事のレスポンス
 type PostsResponse struct {
 	NextPage   interface{}    `json:"next_page"`
 	Posts      []PostResponse `json:"posts"`
@@ -83,6 +89,7 @@ func createSearchQuery(query url.Values) string {
 	return queries
 }
 
+// GetTeamPosts チ-ム名とクエリを指定して記事を取得する
 func (p *PostService) GetTeamPosts(teamName string, query url.Values) (*PostsResponse, error) {
 	var postsRes PostsResponse
 	queries := createSearchQuery(query)
@@ -103,6 +110,7 @@ func (p *PostService) GetTeamPosts(teamName string, query url.Values) (*PostsRes
 
 }
 
+// GetTeamPost チ-ム名と記事番号を指定して記事を取得する
 func (p *PostService) GetTeamPost(teamName string, postNumber int) (*PostResponse, error) {
 	var postRes PostResponse
 
@@ -119,6 +127,7 @@ func (p *PostService) GetTeamPost(teamName string, postNumber int) (*PostRespons
 	return &postRes, nil
 }
 
+// PostTeamPost チ-ム名と記事を指定して記事を投稿する
 func (p *PostService) PostTeamPost(teamName string, post Post) (*PostResponse, error) {
 	postURL := PostURL + "/" + teamName + "/posts"
 	var postRes PostResponse
@@ -140,6 +149,7 @@ func (p *PostService) PostTeamPost(teamName string, post Post) (*PostResponse, e
 	return &postRes, nil
 }
 
+// PatchTeamPost チ-ム名と記事番号と記事を指定して記事を更新する
 func (p *PostService) PatchTeamPost(teamName string, postNumber int, post Post) (*PostResponse, error) {
 	var postRes PostResponse
 	var postReq PostReq
@@ -163,6 +173,7 @@ func (p *PostService) PatchTeamPost(teamName string, postNumber int, post Post) 
 	return &postRes, nil
 }
 
+// DeleteTeamPost チ-ム名と記事番号を指定して記事を削除する
 func (p *PostService) DeleteTeamPost(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
