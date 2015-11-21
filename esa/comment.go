@@ -52,7 +52,7 @@ type Comment struct {
 }
 
 // GetTeamPostComments チ-ム名と記事番号を指定してコメントを取得する.
-func (c *CommentService) GetTeamPostComments(teamName string, postNumber int) (*CommentsResponse, error) {
+func (c *CommentService) GetComments(teamName string, postNumber int) (*CommentsResponse, error) {
 	var commentsResponse CommentsResponse
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"
@@ -68,7 +68,7 @@ func (c *CommentService) GetTeamPostComments(teamName string, postNumber int) (*
 }
 
 // GetTeamComment チ-ム名とコメントIDを取得してコメントを取得する.
-func (c *CommentService) GetTeamComment(teamName string, commentID int) (*CommentResponse, error) {
+func (c *CommentService) GetComment(teamName string, commentID int) (*CommentResponse, error) {
 	var commentResponse CommentResponse
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
@@ -84,7 +84,7 @@ func (c *CommentService) GetTeamComment(teamName string, commentID int) (*Commen
 }
 
 // PostTeamPostComment チ-ム名と記事番号とコメントを指定してコメントを投稿する
-func (c *CommentService) PostTeamPostComment(teamName string, postNumber int, comment Comment) (*CommentResponse, error) {
+func (c *CommentService) Create(teamName string, postNumber int, comment Comment) (*CommentResponse, error) {
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"
 	var commentResponse CommentResponse
@@ -108,7 +108,7 @@ func (c *CommentService) PostTeamPostComment(teamName string, postNumber int, co
 }
 
 // PatchTeamComment チ-ム名とコメントIDとコメントを指定してコメントを更新する
-func (c *CommentService) PatchTeamComment(teamName string, commentID int, comment Comment) (*CommentResponse, error) {
+func (c *CommentService) Update(teamName string, commentID int, comment Comment) (*CommentResponse, error) {
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
 	var commentResponse CommentResponse
@@ -132,7 +132,7 @@ func (c *CommentService) PatchTeamComment(teamName string, commentID int, commen
 }
 
 // DeleteTeamComment チ-ム名とコメントIDを指定してコメントを削除する
-func (c *CommentService) DeleteTeamComment(teamName string, commentID int) error {
+func (c *CommentService) Delete(teamName string, commentID int) error {
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
 

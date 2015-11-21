@@ -21,7 +21,7 @@ func TestCommentGetTeamPostComments(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Comment.GetTeamPostComments("docs", 2)
+	res, err := client.Comment.GetComments("docs", 2)
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
 	}
@@ -44,7 +44,7 @@ func TestCommentGetTeamComment(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Comment.GetTeamComment("docs", 13)
+	res, err := client.Comment.GetComment("docs", 13)
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
 	}
@@ -77,7 +77,7 @@ func TestCommentPostTeamPostComment(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Comment.PostTeamPostComment("docs", 2, comment)
+	res, err := client.Comment.Create("docs", 2, comment)
 
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
@@ -111,7 +111,7 @@ func TestCommentPatchTeamComment(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Comment.PatchTeamComment("docs", 22767, comment)
+	res, err := client.Comment.Update("docs", 22767, comment)
 
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
@@ -135,7 +135,7 @@ func TestCommentDeleteComment(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	err := client.Comment.DeleteTeamComment("docs", 22767)
+	err := client.Comment.Delete("docs", 22767)
 
 	if err != nil {
 		t.Errorf("error Request %s\n", err)

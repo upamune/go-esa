@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestStatsGetTeamStatus(t *testing.T) {
+func TestStatsGet(t *testing.T) {
 	type TestCase struct {
 		in  string
 		out StatsResponse
@@ -18,7 +18,7 @@ func TestStatsGetTeamStatus(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Stats.GetTeamStats("esa")
+	res, err := client.Stats.Get("esa")
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
 	}

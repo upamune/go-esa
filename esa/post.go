@@ -90,7 +90,7 @@ func createSearchQuery(query url.Values) string {
 }
 
 // GetTeamPosts チ-ム名とクエリを指定して記事を取得する
-func (p *PostService) GetTeamPosts(teamName string, query url.Values) (*PostsResponse, error) {
+func (p *PostService) GetPosts(teamName string, query url.Values) (*PostsResponse, error) {
 	var postsRes PostsResponse
 	queries := createSearchQuery(query)
 
@@ -111,7 +111,7 @@ func (p *PostService) GetTeamPosts(teamName string, query url.Values) (*PostsRes
 }
 
 // GetTeamPost チ-ム名と記事番号を指定して記事を取得する
-func (p *PostService) GetTeamPost(teamName string, postNumber int) (*PostResponse, error) {
+func (p *PostService) GetPost(teamName string, postNumber int) (*PostResponse, error) {
 	var postRes PostResponse
 
 	postNumberStr := strconv.Itoa(postNumber)
@@ -128,7 +128,7 @@ func (p *PostService) GetTeamPost(teamName string, postNumber int) (*PostRespons
 }
 
 // PostTeamPost チ-ム名と記事を指定して記事を投稿する
-func (p *PostService) PostTeamPost(teamName string, post Post) (*PostResponse, error) {
+func (p *PostService) Create(teamName string, post Post) (*PostResponse, error) {
 	postURL := PostURL + "/" + teamName + "/posts"
 	var postRes PostResponse
 	var postReq PostReq
@@ -150,7 +150,7 @@ func (p *PostService) PostTeamPost(teamName string, post Post) (*PostResponse, e
 }
 
 // PatchTeamPost チ-ム名と記事番号と記事を指定して記事を更新する
-func (p *PostService) PatchTeamPost(teamName string, postNumber int, post Post) (*PostResponse, error) {
+func (p *PostService) Update(teamName string, postNumber int, post Post) (*PostResponse, error) {
 	var postRes PostResponse
 	var postReq PostReq
 	postReq.Post = post
@@ -174,7 +174,7 @@ func (p *PostService) PatchTeamPost(teamName string, postNumber int, post Post) 
 }
 
 // DeleteTeamPost チ-ム名と記事番号を指定して記事を削除する
-func (p *PostService) DeleteTeamPost(teamName string, postNumber int) error {
+func (p *PostService) Delete(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
 

@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestPostGetTeamPosts(t *testing.T) {
+func TestPostGetPosts(t *testing.T) {
 	type TestCase struct {
 		in  string
 		out PostsResponse
@@ -22,7 +22,7 @@ func TestPostGetTeamPosts(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Post.GetTeamPosts("docs", url.Values{})
+	res, err := client.Post.GetPosts("docs", url.Values{})
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
 	}
@@ -32,7 +32,7 @@ func TestPostGetTeamPosts(t *testing.T) {
 	}
 }
 
-func TestPostGetTeamPost(t *testing.T) {
+func TestPostGetPost(t *testing.T) {
 	type TestCase struct {
 		in  string
 		out PostResponse
@@ -45,7 +45,7 @@ func TestPostGetTeamPost(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Post.GetTeamPost("docs", 1)
+	res, err := client.Post.GetPost("docs", 1)
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
 	}
@@ -55,7 +55,7 @@ func TestPostGetTeamPost(t *testing.T) {
 	}
 }
 
-func TestPostPostTeamPost(t *testing.T) {
+func TestPostCreate(t *testing.T) {
 	type TestCase struct {
 		in  string
 		out PostResponse
@@ -78,7 +78,7 @@ func TestPostPostTeamPost(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Post.PostTeamPost("docs", post)
+	res, err := client.Post.Create("docs", post)
 
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
@@ -89,7 +89,7 @@ func TestPostPostTeamPost(t *testing.T) {
 	}
 }
 
-func TestPostPatchTeamPost(t *testing.T) {
+func TestPostUpdate(t *testing.T) {
 	type TestCase struct {
 		in  string
 		out PostResponse
@@ -112,7 +112,7 @@ func TestPostPatchTeamPost(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Post.PatchTeamPost("docs", 5, post)
+	res, err := client.Post.Update("docs", 5, post)
 
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
@@ -123,7 +123,7 @@ func TestPostPatchTeamPost(t *testing.T) {
 	}
 }
 
-func TestPostDeletePost(t *testing.T) {
+func TestPostDelete(t *testing.T) {
 	type TestCase struct {
 		in  string
 		out interface{}
@@ -136,7 +136,7 @@ func TestPostDeletePost(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	err := client.Post.DeleteTeamPost("docs", 5)
+	err := client.Post.Delete("docs", 5)
 
 	if err != nil {
 		t.Errorf("error Request %s\n", err)

@@ -24,7 +24,7 @@ type StatsResponse struct {
 }
 
 // GetTeamStats チ-ム名を指定して統計情報を取得する
-func (s *StatsService) GetTeamStats(teamName string) (*StatsResponse, error) {
+func (s *StatsService) Get(teamName string) (*StatsResponse, error) {
 	var statsRes StatsResponse
 
 	statsURL := StatsURL + "/" + teamName + "/stats"
