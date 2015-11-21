@@ -2,7 +2,8 @@ dependencies:
   override:
     - go get -t -d -v ./...
 
-pre:
+test:
+  pre:
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
     - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
