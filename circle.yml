@@ -7,6 +7,8 @@ test:
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
     - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
+    - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
+    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
   override:
     - go test -v -cover -race -coverprofile=/home/ubuntu/coverage.out ./esa
   post:
