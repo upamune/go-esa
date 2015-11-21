@@ -1,0 +1,13 @@
+dependencies:
+  override:
+    - go get -t -d -v ./...
+
+test:
+  pre:
+    - go get github.com/axw/gocov/gocov
+    - go get github.com/mattn/goveralls
+    - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
+    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
+  override:
+    - go test -v ./esa
+    - goveralls -v -service=circle-ci -repotoken $COVERALLS_TOKEN ./esa
