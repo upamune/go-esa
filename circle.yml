@@ -2,12 +2,11 @@ dependencies:
   override:
     - go get -t -d -v ./...
 
-test:
-  pre:
+pre:
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
-    - mkdir -p $HOME/.go_workspace/src/_/home/ubuntu/
-    - ln -s $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/_/home/ubuntu/
+    - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
   override:
-    - go test -v ./esa
-    - goveralls -v -service=circle-ci -repotoken $COVERALLS_TOKEN ./esa
+    - go test -v -cover -race -coverprofile=/home/ubuntu/coverage.out ./esa
+  post:
+    - /home/ubuntu/bin/goveralls -coverprofile=/home/ubuntu/coverage.out -service=circle-ci -repotoken=$COVERALLS_TOKEN ./esa
