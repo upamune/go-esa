@@ -1,6 +1,8 @@
 package esa
 
-import "net/url"
+import (
+	"net/url"
+)
 
 const (
 	// TeamURL esa API のチ-ムのベ-スURL
@@ -32,12 +34,10 @@ type TeamsResponse struct {
 // GetTeams チ-ムを取得する
 func (t *TeamService) GetTeams() (*TeamsResponse, error) {
 	var teamsRes TeamsResponse
-	res, err := t.client.get(TeamURL, url.Values{}, &teamsRes)
+	_, err := t.client.get(TeamURL, url.Values{}, &teamsRes)
 	if err != nil {
 		return nil, err
 	}
-
-	defer res.Body.Close()
 
 	return &teamsRes, nil
 }
@@ -46,12 +46,10 @@ func (t *TeamService) GetTeams() (*TeamsResponse, error) {
 func (t *TeamService) GetTeam(teamName string) (*TeamResponse, error) {
 	var teamRes TeamResponse
 	teamURL := TeamURL + "/" + teamName
-	res, err := t.client.get(teamURL, url.Values{}, &teamRes)
+	_, err := t.client.get(teamURL, url.Values{}, &teamRes)
 	if err != nil {
 		return nil, err
 	}
-
-	defer res.Body.Close()
 
 	return &teamRes, nil
 }
