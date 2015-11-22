@@ -2,6 +2,7 @@ package esa
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -48,6 +49,12 @@ func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interfac
 		return nil, err
 	}
 
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, errors.New(http.StatusText(res.StatusCode))
+	}
+
 	if err := responseUnmarshal(res.Body, v); err != nil {
 		return nil, err
 	}
@@ -65,6 +72,12 @@ func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interfa
 	res, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
 	if err := responseUnmarshal(res.Body, v); err != nil {
@@ -85,18 +98,27 @@ func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 		return nil, err
 	}
 
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, errors.New(http.StatusText(res.StatusCode))
+	}
+
 	return res, nil
 }
 
 func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http.Response, err error) {
-	path := c.createURL(esaURL)
-	for key, value := range query {
-		path += "&" + key + "=" + url.QueryEscape(value[0])
-	}
+	path := c.createURL(esaURL) + "?" + query.Encode()
 
 	res, err := c.client.Get(path)
 	if err != nil {
 		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
 	if err := responseUnmarshal(res.Body, v); err != nil {
