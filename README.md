@@ -41,7 +41,7 @@ client.Post.GetPosts("foo", query)
 client.Post.GetPost("foo", 1)
 // => GET /v1/teams/foobar/posts/1
 
-var post esa.Post{}
+var post esa.Post
 client.Post.Create("foobar", post)
 // => POST /v1/teams/foobar/posts
 
