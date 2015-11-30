@@ -15,6 +15,20 @@ func Stub(filename string, outRes interface{}) (*httptest.Server, *Client) {
 		log.Fatalln(err)
 	}
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var statusCode int
+		switch r.Method {
+		case "GET":
+			statusCode = 200
+		case "POST":
+			statusCode = 201
+		case "PATCH":
+			statusCode = 200
+		case "DELETE":
+			statusCode = 204
+		default:
+			statusCode = 200
+		}
+		w.WriteHeader(statusCode)
 		w.Write([]byte(stub))
 	}))
 	c := NewClient("")

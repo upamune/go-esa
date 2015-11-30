@@ -51,7 +51,7 @@ func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interfac
 
 	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != 201 {
 		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
@@ -100,7 +100,7 @@ func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 
 	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != 204 {
 		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
