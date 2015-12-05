@@ -23,6 +23,7 @@ type Client struct {
 	Stats   *StatsService
 	Post    *PostService
 	Comment *CommentService
+	Members *MembersService
 }
 
 // NewClient esa APIのClientを生成する
@@ -35,6 +36,7 @@ func NewClient(apikey string) *Client {
 	c.Stats = &StatsService{client: c}
 	c.Post = &PostService{client: c}
 	c.Comment = &CommentService{client: c}
+	c.Members = &MembersService{client: c}
 
 	return c
 }

@@ -1,0 +1,19 @@
+{
+  "members": [
+    {
+      "name": "Atsuo Fukaya",
+      "screen_name": "fukayatsu",
+      "icon": "https://img.esa.io/uploads/production/users/1/icon/thumb_m_402685a258cf2a33c1d6c13a89adec92.png",
+      "email": "fukayatsu@esa.io"
+    },
+    {
+      "name": "TAEKO AKATSUKA",
+      "screen_name": "taea",
+      "icon": "https://img.esa.io/uploads/production/users/2/icon/thumb_m_2690997f07b7de3014a36d90827603d6.jpg",
+      "email": "taea@esa.io"
+    }
+  ],
+  "prev_page": null,
+  "next_page": null,
+  "total_count": 2
+}
