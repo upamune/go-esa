@@ -110,7 +110,11 @@ func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 }
 
 func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http.Response, err error) {
-	path := c.createURL(esaURL) + "?" + query.Encode()
+	path := c.createURL(esaURL)
+	queries := query.Encode()
+	if len(queries) != 0 {
+		path += "?" + queries
+	}
 
 	res, err := c.client.Get(path)
 	if err != nil {
