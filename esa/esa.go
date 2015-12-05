@@ -23,6 +23,7 @@ type Client struct {
 	Stats   *StatsService
 	Post    *PostService
 	Comment *CommentService
+	Members *MembersService
 }
 
 // NewClient esa APIのClientを生成する
@@ -35,6 +36,7 @@ func NewClient(apikey string) *Client {
 	c.Stats = &StatsService{client: c}
 	c.Post = &PostService{client: c}
 	c.Comment = &CommentService{client: c}
+	c.Members = &MembersService{client: c}
 
 	return c
 }
@@ -108,7 +110,11 @@ func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 }
 
 func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http.Response, err error) {
-	path := c.createURL(esaURL) + "?" + query.Encode()
+	path := c.createURL(esaURL)
+	queries := query.Encode()
+	if len(queries) != 0 {
+		path += "?" + queries
+	}
 
 	res, err := c.client.Get(path)
 	if err != nil {
