@@ -68,4 +68,9 @@ client.Comment.Update("foobar", 123, comment)
 
 client.Comment.Delete("foobar", 123)
 // => DELETE /v1/teams/foobar/comments/123
+
+
+// Members API
+client.Members.Get("foo")
+// => GET /v1/teams/foo/members
 ```
