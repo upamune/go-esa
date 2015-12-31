@@ -53,7 +53,7 @@ func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interfac
 
 	defer res.Body.Close()
 
-	if res.StatusCode != 201 {
+	if res.StatusCode != http.StatusCreated {
 		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
@@ -78,7 +78,7 @@ func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interfa
 
 	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != http.StatusOK {
 		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
@@ -102,7 +102,7 @@ func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 
 	defer res.Body.Close()
 
-	if res.StatusCode != 204 {
+	if res.StatusCode != http.StatusNoContent {
 		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
@@ -123,7 +123,7 @@ func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http
 
 	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != http.StatusOK {
 		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
