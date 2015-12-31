@@ -18,15 +18,15 @@ func Stub(filename string, outRes interface{}) (*httptest.Server, *Client) {
 		var statusCode int
 		switch r.Method {
 		case "GET":
-			statusCode = 200
+			statusCode = http.StatusOK
 		case "POST":
-			statusCode = 201
+			statusCode = http.StatusCreated
 		case "PATCH":
-			statusCode = 200
+			statusCode = http.StatusOK
 		case "DELETE":
-			statusCode = 204
+			statusCode = http.StatusNoContent
 		default:
-			statusCode = 200
+			statusCode = http.StatusOK
 		}
 		w.WriteHeader(statusCode)
 		w.Write([]byte(stub))
