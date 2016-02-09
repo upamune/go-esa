@@ -95,7 +95,7 @@ func createSearchQuery(query url.Values) string {
 	return queries
 }
 
-// GetTeamPosts チ-ム名とクエリを指定して記事を取得する
+// GetPosts チ-ム名とクエリを指定して記事を取得する
 func (p *PostService) GetPosts(teamName string, query url.Values) (*PostsResponse, error) {
 	var postsRes PostsResponse
 	queries := createSearchQuery(query)
@@ -116,7 +116,7 @@ func (p *PostService) GetPosts(teamName string, query url.Values) (*PostsRespons
 
 }
 
-// GetTeamPost チ-ム名と記事番号を指定して記事を取得する
+// GetPost チ-ム名と記事番号を指定して記事を取得する
 func (p *PostService) GetPost(teamName string, postNumber int) (*PostResponse, error) {
 	var postRes PostResponse
 
@@ -133,7 +133,7 @@ func (p *PostService) GetPost(teamName string, postNumber int) (*PostResponse, e
 	return &postRes, nil
 }
 
-// PostTeamPost チ-ム名と記事を指定して記事を投稿する
+// Create チ-ム名と記事を指定して記事を投稿する
 func (p *PostService) Create(teamName string, post Post) (*PostResponse, error) {
 	postURL := PostURL + "/" + teamName + "/posts"
 	var postRes PostResponse
@@ -155,7 +155,7 @@ func (p *PostService) Create(teamName string, post Post) (*PostResponse, error) 
 	return &postRes, nil
 }
 
-// PatchTeamPost チ-ム名と記事番号と記事を指定して記事を更新する
+// Update チ-ム名と記事番号と記事を指定して記事を更新する
 func (p *PostService) Update(teamName string, postNumber int, post Post) (*PostResponse, error) {
 	var postRes PostResponse
 	var postReq PostReq
@@ -179,7 +179,7 @@ func (p *PostService) Update(teamName string, postNumber int, post Post) (*PostR
 	return &postRes, nil
 }
 
-// DeleteTeamPost チ-ム名と記事番号を指定して記事を削除する
+// Delete チ-ム名と記事番号を指定して記事を削除する
 func (p *PostService) Delete(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
@@ -193,7 +193,7 @@ func (p *PostService) Delete(teamName string, postNumber int) error {
 	return nil
 }
 
-// CreateSharing チ-ム名と記事を指定して記事を投稿する
+// CreateSharing チ-ム名と記事を指定して記事を公開する
 func (p *PostService) CreateSharing(teamName string, postNumber int) (*SharedPost, error) {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/sharing"
@@ -214,7 +214,7 @@ func (p *PostService) CreateSharing(teamName string, postNumber int) (*SharedPos
 	return &sharedRes, nil
 }
 
-// DeleteSharing チ-ム名と記事番号を指定して記事を削除する
+// DeleteSharing チ-ム名と記事番号を指定して公開リンクを削除する
 func (p *PostService) DeleteSharing(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/sharing"
