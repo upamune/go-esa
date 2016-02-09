@@ -76,6 +76,12 @@ type PostsResponse struct {
 	TotalCount int            `json:"total_count"`
 }
 
+// SharedPost 公開された記事
+type SharedPost struct {
+	HTML   string `json:"html"`
+	Slides string `json:"slides"`
+}
+
 func createSearchQuery(query url.Values) string {
 	var queries string
 	for key, values := range query {
@@ -177,6 +183,41 @@ func (p *PostService) Update(teamName string, postNumber int, post Post) (*PostR
 func (p *PostService) Delete(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
+
+	res, err := p.client.delete(postURL)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
+}
+
+// CreateSharing チ-ム名と記事を指定して記事を投稿する
+func (p *PostService) CreateSharing(teamName string, postNumber int) (*SharedPost, error) {
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/sharing"
+	var sharedRes SharedPost
+	var postReq PostReq
+	var data []byte
+	var err error
+	if data, err = json.Marshal(postReq); err != nil {
+		return nil, err
+	}
+
+	res, err := p.client.post(postURL, "application/json", bytes.NewReader(data), &sharedRes)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	return &sharedRes, nil
+}
+
+// DeleteSharing チ-ム名と記事番号を指定して記事を削除する
+func (p *PostService) DeleteSharing(teamName string, postNumber int) error {
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/sharing"
 
 	res, err := p.client.delete(postURL)
 	if err != nil {
