@@ -142,3 +142,47 @@ func TestPostDelete(t *testing.T) {
 		t.Errorf("error Request %s\n", err)
 	}
 }
+
+func TestCretaeSharing(t *testing.T) {
+	type TestCase struct {
+		in  string
+		out SharedPost
+	}
+
+	testCase := TestCase{
+		in: "../tests/stubs/post_sharing_create.json",
+	}
+
+	serve, client := Stub(testCase.in, &testCase.out)
+	defer serve.Close()
+
+	res, err := client.Post.CreateSharing("docs", 5)
+
+	if err != nil {
+		t.Errorf("error Request %s\n", err)
+	}
+
+	if !reflect.DeepEqual(*res, testCase.out) {
+		t.Errorf("error Response %s != %s", res, testCase.out)
+	}
+}
+
+func TestDeleteSharing(t *testing.T) {
+	type TestCase struct {
+		in  string
+		out interface{}
+	}
+
+	testCase := TestCase{
+		in: "../tests/stubs/post_sharing_delete.json",
+	}
+
+	serve, client := Stub(testCase.in, &testCase.out)
+	defer serve.Close()
+
+	err := client.Post.DeleteSharing("docs", 5)
+
+	if err != nil {
+		t.Errorf("error Request %s\n", err)
+	}
+}

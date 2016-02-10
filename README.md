@@ -51,6 +51,11 @@ client.Post.Update("foobar", 1, post)
 client.Post.Delete("foobar", 1)
 // => DELETE /v1/teams/foobar/posts/1
 
+client.Post.CreateSharing("foobar", 1)
+// => POST /v1/teams/foobar/posts/1/sharing
+
+client.Post.DeleteSharing("foobar", 1)
+// => DELETE /v1/teams/foobar/posts/1/sharing
 
 // Comment API
 client.Comment.GetComments("foobar", 1)
@@ -68,7 +73,6 @@ client.Comment.Update("foobar", 123, comment)
 
 client.Comment.Delete("foobar", 123)
 // => DELETE /v1/teams/foobar/comments/123
-
 
 // Members API
 client.Members.Get("foo")
