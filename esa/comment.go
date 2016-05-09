@@ -145,3 +145,57 @@ func (c *CommentService) Delete(teamName string, commentID int) error {
 
 	return nil
 }
+
+// Stargazers チ-ム名とコメントIDを指定してStarをしたユーザ一覧を取得する
+func (p *CommentService) Stargazers(teamName string, commentID int) (*StargazersResponse, error) {
+	var starRes StargazersResponse
+	commentIDStr := strconv.Itoa(commentID)
+
+	postURL := PostURL + "/" + teamName + "/comments" + "/" + commentIDStr + "/stargazers"
+	res, err := p.client.get(postURL, url.Values{}, &starRes)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	return &starRes, nil
+}
+
+// AddStar チ-ム名と記事を指定してStarをする
+func (p *CommentService) AddStar (teamName string, commentID int, body string) (error) {
+	commentIDStr := strconv.Itoa(commentID)
+	postURL := PostURL + "/" + teamName + "/comments" + "/" + commentIDStr + "/star"
+
+	starReq := StarReq{
+		Body: body,
+	}
+
+	var data []byte
+	var err error
+	if data, err = json.Marshal(starReq); err != nil {
+		return err
+	}
+
+	res, err := p.client.post(postURL, "application/json", bytes.NewReader(data), nil)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
+}
+
+// DeleteStar チ-ム名と記事を指定してStarを取り消す
+func (p *CommentService) DeleteStar (teamName string, commentID int) (error) {
+	commentIDStr := strconv.Itoa(commentID)
+	postURL := PostURL + "/" + teamName + "/comments" + "/" + commentIDStr + "/star"
+
+	res, err := p.client.delete(postURL)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
+}

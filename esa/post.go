@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 const (
@@ -80,6 +81,30 @@ type PostsResponse struct {
 type SharedPost struct {
 	HTML   string `json:"html"`
 	Slides string `json:"slides"`
+}
+
+// StargazersResponse スターのレスポンス
+type StargazersResponse struct {
+	Stargazers []Stargazer `json:"stargazers"`
+	PrevPage   interface{} `json:"prev_page"`
+	NextPage   interface{} `json:"next_page"`
+	TotalCount int         `json:"total_count"`
+}
+
+// Stargazer Starをしたユーザ
+type Stargazer struct {
+	CreatedAt time.Time   `json:"created_at"`
+	Body      interface{} `json:"body"`
+	User      struct {
+		Name       string `json:"name"`
+		ScreenName string `json:"screen_name"`
+		Icon       string `json:"icon"`
+	} `json:"user"`
+}
+
+// StarReq Starのリクエスト
+type StarReq struct {
+	Body string `json:"body"`
 }
 
 func createSearchQuery(query url.Values) string {
@@ -218,6 +243,60 @@ func (p *PostService) CreateSharing(teamName string, postNumber int) (*SharedPos
 func (p *PostService) DeleteSharing(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/sharing"
+
+	res, err := p.client.delete(postURL)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
+}
+
+// Stargazers チ-ム名と記事を指定してStarをしたユーザ一覧を取得する
+func (p *PostService) Stargazers(teamName string, postNumber int) (*StargazersResponse, error) {
+	var starRes StargazersResponse
+	postNumberStr := strconv.Itoa(postNumber)
+
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/stargazers"
+	res, err := p.client.get(postURL, url.Values{}, &starRes)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	return &starRes, nil
+}
+
+// AddStar チ-ム名と記事を指定してStarをする
+func (p *PostService) AddStar (teamName string, postNumber int, body string) (error) {
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/star"
+
+	starReq := StarReq{
+		Body: body,
+	}
+
+	var data []byte
+	var err error
+	if data, err = json.Marshal(starReq); err != nil {
+		return err
+	}
+
+	res, err := p.client.post(postURL, "application/json", bytes.NewReader(data), nil)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
+}
+
+// DeleteStar チ-ム名と記事を指定してStarを取り消す
+func (p *PostService) DeleteStar (teamName string, postNumber int) (error) {
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/star"
 
 	res, err := p.client.delete(postURL)
 	if err != nil {

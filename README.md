@@ -77,4 +77,23 @@ client.Comment.Delete("foobar", 123)
 // Members API
 client.Members.Get("foo")
 // => GET /v1/teams/foo/members
+
+// Star API
+client.Post.Stargazers("foobar", 1)
+// => GET /v1/teams/foobar/posts/1/stargazers
+
+client.Post.AddStar(1)
+// => POST /v1/teams/foobar/posts/1/star
+
+client.Post.DeleteStar(1)
+// => DELETE /v1/teams/foobar/posts/1/star
+
+client.Comment.Stargazers(123)
+// => GET /v1/teams/foobar/comments/123/stargazers
+
+client.Comment.AddStar(123)
+// => POST /v1/teams/foobar/comments/123/star
+
+client.Comment.DeleteStar(123)
+// => DELETE /v1/teams/foobar/comments/123/star
 ```
