@@ -77,4 +77,14 @@ client.Comment.Delete("foobar", 123)
 // Members API
 client.Members.Get("foo")
 // => GET /v1/teams/foo/members
+
+// Watch API
+client.Post.Watchers(1)
+// => GET /v1/teams/foobar/posts/1/watchers
+
+client.Post.AddWatch(1)
+// => POST /v1/teams/foobar/posts/1/watch
+
+client.Post.DeleteWatch(1)
+// => DELETE /v1/teams/foobar/posts/1/watch
 ```

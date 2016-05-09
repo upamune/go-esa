@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 const (
@@ -80,6 +81,24 @@ type PostsResponse struct {
 type SharedPost struct {
 	HTML   string `json:"html"`
 	Slides string `json:"slides"`
+}
+
+// WatchResponse 記事にWatchをしたユーザ一覧のレスポンス
+type WatchResponse struct {
+	Watchers   []Watcher   `json:"watchers"`
+	PrevPage   interface{} `json:"prev_page"`
+	NextPage   interface{} `json:"next_page"`
+	TotalCount int         `json:"total_count"`
+}
+
+// Watcher 記事にWatchをしたユーザ一
+type Watcher struct {
+	CreatedAt time.Time `json:"created_at"`
+	User      struct {
+		Name       string `json:"name"`
+		ScreenName string `json:"screen_name"`
+		Icon       string `json:"icon"`
+	} `json:"user"`
 }
 
 func createSearchQuery(query url.Values) string {
@@ -218,6 +237,48 @@ func (p *PostService) CreateSharing(teamName string, postNumber int) (*SharedPos
 func (p *PostService) DeleteSharing(teamName string, postNumber int) error {
 	postNumberStr := strconv.Itoa(postNumber)
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/sharing"
+
+	res, err := p.client.delete(postURL)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
+}
+
+func (p *PostService) Watchers(teamName string, postNumber int) (*WatchResponse, error) {
+	var watchRes WatchResponse
+
+	postNumberStr := strconv.Itoa(postNumber)
+
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/watchers"
+	res, err := p.client.get(postURL, url.Values{}, &watchRes)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	return &watchRes, nil
+}
+
+func (p *PostService) AddWatch(teamName string, postNumber int) error {
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/watch"
+
+	res, err := p.client.post(postURL, "application/json", bytes.NewReader([]byte("")), nil)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	return nil
+}
+
+func (p *PostService) DeleteWatch(teamName string, postNumber int) error {
+	postNumberStr := strconv.Itoa(postNumber)
+	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/watch"
 
 	res, err := p.client.delete(postURL)
 	if err != nil {

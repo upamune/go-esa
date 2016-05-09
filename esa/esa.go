@@ -53,12 +53,15 @@ func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interfac
 
 	defer res.Body.Close()
 
-	if res.StatusCode != http.StatusCreated {
+	if res.StatusCode != http.StatusCreated && res.StatusCode != http.StatusNoContent {
 		return nil, errors.New(http.StatusText(res.StatusCode))
 	}
 
-	if err := responseUnmarshal(res.Body, v); err != nil {
-		return nil, err
+	if v != nil {
+		if err := responseUnmarshal(res.Body, v); err != nil {
+			return nil, err
+		}
+
 	}
 
 	return res, nil
