@@ -6,7 +6,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 )
 
 const (
@@ -109,14 +108,11 @@ func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 	return res, nil
 }
 
-func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http.Response, err error) {
-	path := c.createURL(esaURL)
-	queries := query.Encode()
-	if len(queries) != 0 {
-		path += "?" + queries
-	}
+func (c *Client) get(esaURL string, body io.Reader, v interface{}) (resp *http.Response, err error) {
+	req, _ := http.NewRequest("GET", c.createURL(esaURL), body)
+	req.Header.Add("Content-Type", "application/json")
 
-	res, err := c.client.Get(path)
+	res, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
 	}

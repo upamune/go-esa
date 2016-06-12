@@ -3,7 +3,6 @@ package esa
 import (
 	"bytes"
 	"encoding/json"
-	"net/url"
 	"strconv"
 )
 
@@ -57,7 +56,7 @@ func (c *CommentService) GetComments(teamName string, postNumber int) (*Comments
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"
 
-	res, err := c.client.get(commentURL, url.Values{}, &commentsResponse)
+	res, err := c.client.get(commentURL, nil, &commentsResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +72,7 @@ func (c *CommentService) GetComment(teamName string, commentID int) (*CommentRes
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
 
-	res, err := c.client.get(commentURL, url.Values{}, &commentResponse)
+	res, err := c.client.get(commentURL, nil, &commentResponse)
 	if err != nil {
 		return nil, err
 	}

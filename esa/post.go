@@ -99,13 +99,10 @@ func createSearchQuery(query url.Values) string {
 func (p *PostService) GetPosts(teamName string, query url.Values) (*PostsResponse, error) {
 	var postsRes PostsResponse
 	queries := createSearchQuery(query)
-
-	searchQuery := url.Values{}
-	searchQuery.Add("q", queries)
-	searchQuery.Encode()
+	buf, _ := json.Marshal(map[string]string{"q": queries})
 
 	postsURL := PostURL + "/" + teamName + "/posts"
-	res, err := p.client.get(postsURL, searchQuery, &postsRes)
+	res, err := p.client.get(postsURL, bytes.NewBuffer(buf), &postsRes)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +110,6 @@ func (p *PostService) GetPosts(teamName string, query url.Values) (*PostsRespons
 	defer res.Body.Close()
 
 	return &postsRes, nil
-
 }
 
 // GetPost チ-ム名と記事番号を指定して記事を取得する
@@ -123,7 +119,7 @@ func (p *PostService) GetPost(teamName string, postNumber int) (*PostResponse, e
 	postNumberStr := strconv.Itoa(postNumber)
 
 	postURL := PostURL + "/" + teamName + "/posts" + "/" + postNumberStr
-	res, err := p.client.get(postURL, url.Values{}, &postRes)
+	res, err := p.client.get(postURL, nil, &postRes)
 	if err != nil {
 		return nil, err
 	}
