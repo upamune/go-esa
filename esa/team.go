@@ -1,7 +1,6 @@
 package esa
 
 import (
-	"net/url"
 )
 
 const (
@@ -34,7 +33,7 @@ type TeamsResponse struct {
 // GetTeams チ-ムを取得する
 func (t *TeamService) GetTeams() (*TeamsResponse, error) {
 	var teamsRes TeamsResponse
-	_, err := t.client.get(TeamURL, url.Values{}, &teamsRes)
+	_, err := t.client.get(TeamURL, nil, &teamsRes)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +45,7 @@ func (t *TeamService) GetTeams() (*TeamsResponse, error) {
 func (t *TeamService) GetTeam(teamName string) (*TeamResponse, error) {
 	var teamRes TeamResponse
 	teamURL := TeamURL + "/" + teamName
-	_, err := t.client.get(teamURL, url.Values{}, &teamRes)
+	_, err := t.client.get(teamURL, nil, &teamRes)
 	if err != nil {
 		return nil, err
 	}

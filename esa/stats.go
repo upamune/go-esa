@@ -1,6 +1,5 @@
 package esa
 
-import "net/url"
 
 const (
 	// StatsURL esa API の統計情報のベ-スURL
@@ -28,7 +27,7 @@ func (s *StatsService) Get(teamName string) (*StatsResponse, error) {
 	var statsRes StatsResponse
 
 	statsURL := StatsURL + "/" + teamName + "/stats"
-	res, err := s.client.get(statsURL, url.Values{}, &statsRes)
+	res, err := s.client.get(statsURL, nil, &statsRes)
 	if err != nil {
 		return nil, err
 	}

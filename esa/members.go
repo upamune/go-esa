@@ -1,6 +1,5 @@
 package esa
 
-import "net/url"
 
 const (
 // MembersURL esa API のメンバーのベ-スURL
@@ -33,7 +32,7 @@ func (s *MembersService) Get(teamName string) (*MembersResponse, error) {
 	var membersRes MembersResponse
 
 	membersURL := MembersURL+ "/" + teamName + "/members"
-	res, err := s.client.get(membersURL, url.Values{}, &membersRes)
+	res, err := s.client.get(membersURL, nil, &membersRes)
 	if err != nil {
 		return nil, err
 	}
