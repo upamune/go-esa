@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -83,16 +84,18 @@ type SharedPost struct {
 }
 
 func createSearchQuery(query url.Values) string {
-	var queries string
+	var queries []string
 	for key, values := range query {
-		queries += key + ":"
 		for _, value := range values {
-			queries += value + " "
+			query := value
+			if key != "" {
+				query = key + ":" + query
+			}
+			queries = append(queries, query)
 		}
-		queries += "+"
 	}
 
-	return queries
+	return strings.Join(queries, " ")
 }
 
 // GetPosts チ-ム名とクエリを指定して記事を取得する
@@ -102,7 +105,6 @@ func (p *PostService) GetPosts(teamName string, query url.Values) (*PostsRespons
 
 	searchQuery := url.Values{}
 	searchQuery.Add("q", queries)
-	searchQuery.Encode()
 
 	postsURL := PostURL + "/" + teamName + "/posts"
 	res, err := p.client.get(postsURL, searchQuery, &postsRes)
