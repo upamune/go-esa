@@ -113,7 +113,7 @@ func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http
 	path := c.createURL(esaURL)
 	queries := query.Encode()
 	if len(queries) != 0 {
-		path += "?" + queries
+		path += "&" + queries
 	}
 
 	res, err := c.client.Get(path)
