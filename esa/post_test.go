@@ -186,3 +186,51 @@ func TestDeleteSharing(t *testing.T) {
 		t.Errorf("error Request %s\n", err)
 	}
 }
+
+func Test_createSearchQuery(t *testing.T) {
+	type TestCase struct {
+		in  url.Values
+		out string
+	}
+
+	testCases := []TestCase{
+		{
+			in: url.Values{
+				"": []string{"esa"},
+			},
+			out: "esa",
+		},
+		{
+			in: url.Values{
+				"": []string{"esa", "docs"},
+			},
+			out: "esa docs",
+		},
+		{
+			in: url.Values{
+				"body": []string{"esa"},
+			},
+			out: "body:esa",
+		},
+		{
+			in: url.Values{
+				"body": []string{"esa", "docs"},
+			},
+			out: "body:esa body:docs",
+		},
+		{
+			in: url.Values{
+				"":     []string{"esa", "docs"},
+				"body": []string{"start"},
+			},
+			out: "esa docs body:start",
+		},
+	}
+
+	for _, ts := range testCases {
+		searchQuery := createSearchQuery(ts.in)
+		if ts.out != searchQuery {
+			t.Errorf("error searchQuery [%s] != [%s]", searchQuery, ts.out)
+		}
+	}
+}
