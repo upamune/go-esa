@@ -33,10 +33,14 @@ client.Stats.Get("bar")
 client.Post.GetPosts("foo")
 // => GET /v1/teams/foo/posts
 
+searchQuery := url.Values{}
+searchQuery.Add("in", "help")
 query := url.Values{}
-query.Add("in", "help")
-client.Post.GetPosts("foo", query)
-// => GET /v1/teams/foo/posts?q=in%3Ahelp
+query.Add("page", "1")
+query.Add("sort", "created")
+query.Add("order", "asc")
+client.Post.GetPosts("foo", searchQuery, query)
+// => GET /v1/teams/foo/posts?q=in%3Ahelp&page=1&sort=created&order=asc
 
 client.Post.GetPost("foo", 1)
 // => GET /v1/teams/foobar/posts/1
