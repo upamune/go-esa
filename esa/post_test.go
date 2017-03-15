@@ -22,7 +22,7 @@ func TestPostGetPosts(t *testing.T) {
 	serve, client := Stub(testCase.in, &testCase.out)
 	defer serve.Close()
 
-	res, err := client.Post.GetPosts("docs", url.Values{}, url.Values{})
+	res, err := client.Post.GetPosts("docs", url.Values{})
 	if err != nil {
 		t.Errorf("error Request %s\n", err)
 	}

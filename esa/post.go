@@ -98,11 +98,26 @@ func createSearchQuery(query url.Values) string {
 	return strings.Join(queries, " ")
 }
 
-// GetPosts チ-ム名, 検索用クエリ, その他のクエリを指定して記事を取得する
-func (p *PostService) GetPosts(teamName string, searchQuery url.Values, queries url.Values) (*PostsResponse, error) {
+func createQuery(query url.Values) url.Values {
+	queries := url.Values{}
+	searchQuery := query
+
+	queryKey := []string{"page", "per_page", "q", "include", "sort", "order"}
+	for _, key := range queryKey {
+		if value := query.Get(key); value != "" {
+			queries.Add(key, value)
+			searchQuery.Del(key)
+		}
+	}
+
+	queries.Add("q", createSearchQuery(searchQuery))
+	return queries
+}
+
+// GetPosts チ-ム名とクエリを指定して記事を取得する
+func (p *PostService) GetPosts(teamName string, query url.Values) (*PostsResponse, error) {
 	var postsRes PostsResponse
-	q := createSearchQuery(searchQuery)
-	queries.Add("q", q)
+	queries := createQuery(query)
 
 	postsURL := PostURL + "/" + teamName + "/posts"
 	res, err := p.client.get(postsURL, queries, &postsRes)
