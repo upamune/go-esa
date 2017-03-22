@@ -16,7 +16,7 @@ const (
 
 // Client esa API クライアント
 type Client struct {
-	client  *http.Client
+	Client  *http.Client
 	apiKey  string
 	baseURL string
 	Team    *TeamService
@@ -29,7 +29,7 @@ type Client struct {
 // NewClient esa APIのClientを生成する
 func NewClient(apikey string) *Client {
 	c := &Client{}
-	c.client = http.DefaultClient
+	c.Client = http.DefaultClient
 	c.apiKey = apikey
 	c.baseURL = defaultBaseURL
 	c.Team = &TeamService{client: c}
@@ -46,7 +46,7 @@ func (c *Client) createURL(esaURL string) string {
 }
 
 func (c *Client) post(esaURL string, bodyType string, body io.Reader, v interface{}) (resp *http.Response, err error) {
-	res, err := c.client.Post(c.createURL(esaURL), bodyType, body)
+	res, err := c.Client.Post(c.createURL(esaURL), bodyType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (c *Client) patch(esaURL string, bodyType string, body io.Reader, v interfa
 		return nil, err
 	}
 	req.Header.Add("Content-Type", bodyType)
-	res, err := c.client.Do(req)
+	res, err := c.Client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func (c *Client) delete(esaURL string) (resp *http.Response, err error) {
 	if err != nil {
 		return nil, err
 	}
-	res, err := c.client.Do(req)
+	res, err := c.Client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func (c *Client) get(esaURL string, query url.Values, v interface{}) (resp *http
 		path += "&" + queries
 	}
 
-	res, err := c.client.Get(path)
+	res, err := c.Client.Get(path)
 	if err != nil {
 		return nil, err
 	}
