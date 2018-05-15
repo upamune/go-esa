@@ -23,7 +23,7 @@ type TeamResponse struct {
 	URL         string `json:"url"`
 }
 
-// TeamsRespons 複数チ-ムのレスポンス
+// TeamsResponse 複数チ-ムのレスポンス
 type TeamsResponse struct {
 	Teams      []TeamResponse `json:"teams"`
 	PrevPage   interface{}    `json:"prev_page"`
