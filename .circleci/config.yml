@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.8
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+      - checkout
+      - run: go get -v -t -d ./...
+      - run: go get github.com/axw/gocov/gocov
+      - run: go get github.com/mattn/goveralls
+      - run: go get github.com/golang/tools/cmd/cover
+      - run: go test -v -cover -race -coverprofile=./coverage.out ./esa
+      - run: goveralls -coverprofile=./coverage.out -service=circle-ci -repotoken=$COVERALLS_TOKEN ./esa
