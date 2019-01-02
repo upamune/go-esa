@@ -28,7 +28,7 @@ func TestPostGetPosts(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(*res, testCase.out) {
-		t.Errorf("error Response %s != %s", res, testCase.out)
+		t.Errorf("error Response %+v != %+v", res, testCase.out)
 	}
 }
 
@@ -51,7 +51,7 @@ func TestPostGetPost(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(*res, testCase.out) {
-		t.Errorf("error Response %s != %s", res, testCase.out)
+		t.Errorf("error Response %+v != %+v", res, testCase.out)
 	}
 }
 
@@ -85,7 +85,7 @@ func TestPostCreate(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(*res, testCase.out) {
-		t.Errorf("error Response %s != %s", res, testCase.out)
+		t.Errorf("error Response %+v != %+v", res, testCase.out)
 	}
 }
 
@@ -119,7 +119,7 @@ func TestPostUpdate(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(*res, testCase.out) {
-		t.Errorf("error Response %s != %s", res, testCase.out)
+		t.Errorf("error Response %+v != %+v", res, testCase.out)
 	}
 }
 

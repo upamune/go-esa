@@ -24,6 +24,6 @@ func TestMembersGet(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(*res, testCase.out) {
-		t.Errorf("error Response %s != %s", res, testCase.out)
+		t.Errorf("error Response %+v != %+v", res, testCase.out)
 	}
 }
