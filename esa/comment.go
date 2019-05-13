@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	// CommentURL esa API のコメントのベ-スURL
+	// CommnetURL esa API のコメントのベ-スURL
 	CommnetURL = "/v1/teams"
 )
 
@@ -51,7 +51,7 @@ type Comment struct {
 	User   string `json:"user"`
 }
 
-// GetTeamPostComments チ-ム名と記事番号を指定してコメントを取得する.
+// GetComments チ-ム名と記事番号を指定してコメントを取得する.
 func (c *CommentService) GetComments(teamName string, postNumber int) (*CommentsResponse, error) {
 	var commentsResponse CommentsResponse
 	postNumberStr := strconv.Itoa(postNumber)
@@ -67,7 +67,7 @@ func (c *CommentService) GetComments(teamName string, postNumber int) (*Comments
 	return &commentsResponse, nil
 }
 
-// GetTeamComment チ-ム名とコメントIDを取得してコメントを取得する.
+// GetComment チ-ム名とコメントIDを取得してコメントを取得する.
 func (c *CommentService) GetComment(teamName string, commentID int) (*CommentResponse, error) {
 	var commentResponse CommentResponse
 	commentIDStr := strconv.Itoa(commentID)
@@ -83,7 +83,7 @@ func (c *CommentService) GetComment(teamName string, commentID int) (*CommentRes
 	return &commentResponse, nil
 }
 
-// PostTeamPostComment チ-ム名と記事番号とコメントを指定してコメントを投稿する
+// Create チ-ム名と記事番号とコメントを指定してコメントを投稿する
 func (c *CommentService) Create(teamName string, postNumber int, comment Comment) (*CommentResponse, error) {
 	postNumberStr := strconv.Itoa(postNumber)
 	commentURL := CommnetURL + "/" + teamName + "/posts" + "/" + postNumberStr + "/comments"
@@ -107,7 +107,7 @@ func (c *CommentService) Create(teamName string, postNumber int, comment Comment
 	return &commentResponse, nil
 }
 
-// PatchTeamComment チ-ム名とコメントIDとコメントを指定してコメントを更新する
+// Update チ-ム名とコメントIDとコメントを指定してコメントを更新する
 func (c *CommentService) Update(teamName string, commentID int, comment Comment) (*CommentResponse, error) {
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr
@@ -131,7 +131,7 @@ func (c *CommentService) Update(teamName string, commentID int, comment Comment)
 	return &commentResponse, nil
 }
 
-// DeleteTeamComment チ-ム名とコメントIDを指定してコメントを削除する
+// Delete チ-ム名とコメントIDを指定してコメントを削除する
 func (c *CommentService) Delete(teamName string, commentID int) error {
 	commentIDStr := strconv.Itoa(commentID)
 	commentURL := CommnetURL + "/" + teamName + "/comments" + "/" + commentIDStr

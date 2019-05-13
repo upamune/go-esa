@@ -23,7 +23,7 @@ type StatsResponse struct {
 	WeeklyActiveUsers  int `json:"weekly_active_users"`
 }
 
-// GetTeamStats チ-ム名を指定して統計情報を取得する
+// Get チ-ム名を指定して統計情報を取得する
 func (s *StatsService) Get(teamName string) (*StatsResponse, error) {
 	var statsRes StatsResponse
 
